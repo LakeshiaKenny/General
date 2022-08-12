@@ -1,5 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
 void invert(double **matrix, int n, int m);
-void input(double **matrix, int n, int m);
+int input(double **matrix, int n, int m);
 void output(double **matrix, int n, int m);
 double det(double **matrix, int size);
 
@@ -17,7 +21,8 @@ int main()
         n = (int)n;
         m = (int)m;
         input(data, n, m);
-        
+        invert(data, n, m);
+        output(data, n, m);
         // ---------
     } else {printf("n/a");}
     free(data);
@@ -69,9 +74,13 @@ void invert(double **matrix, int n, int m) {
 }
 
 void output(double **matrix, int n, int m) {
+    int size = n;
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
-            printf("%.6lf ", *((double*)matrix + i * size + j));
+            if (i == size - 1 && j == size - 1) printf("%.6lf", *((double*)matrix + i * size + j));
+            else printf("%.6lf ", *((double*)matrix + i * size + j));
         }
+        if (i < size - 1) printf("\n");
     }
 }
+

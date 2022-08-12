@@ -1,0 +1,77 @@
+void invert(double **matrix, int n, int m);
+void input(double **matrix, int n, int m);
+void output(double **matrix, int n, int m);
+double det(double **matrix, int size);
+
+
+int main()
+{
+    double n, m;
+    int check_n = scanf("%lf", &n);
+    int check_m = scanf("%lf", &m);
+    double **data = 0;
+    data = malloc(n*m * sizeof(double));
+    if (check_n == 1 && n - (int)n == 0 && check_m == 1 &&
+        m - (int)m == 0 && n > 0 && m > 0 && n == m) {
+        // ---------
+        n = (int)n;
+        m = (int)m;
+        input(data, n, m);
+        
+        // ---------
+    } else {printf("n/a");}
+    free(data);
+
+    return 0;
+}
+
+int input(double **matrix, int n, int m) {
+    int flag = 0;
+    double p;
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (!flag && !scanf("%lf", &p))
+                flag = 1;
+            else
+                *((double*)matrix + i * n + j) = (double)p;
+        }
+      }
+    return flag;
+}
+
+double det(double **matrix, int size) {
+    double temp = 0;
+    int detr = 1;
+    for (int k = 0; k < size - 1; k++) {
+        for (int i = k + 1; i < size; i++) {
+            temp = (-1)*(*((double*)matrix + i * size + k)) /
+            (*((double*)matrix + k * size + k));
+            for (int j = 0; j < size; j++) {
+                *((double*)matrix + i * size + j) +=
+                *((double *)matrix + k * size + j) * temp;
+            }
+        }
+    }
+    for (int i = 0; i < size; i++) {
+        detr*= *((double*)matrix + i * size + i);
+    }
+    return detr;
+}
+
+void invert(double **matrix, int n, int m) {
+    int size = n;
+    double detr = det(matrix, size);
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            *((double*)matrix + i * size + j) = *((double*)matrix + i * size + j) / detr;
+        }
+    }
+}
+
+void output(double **matrix, int n, int m) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            printf("%.6lf ", *((double*)matrix + i * size + j));
+        }
+    }
+}
